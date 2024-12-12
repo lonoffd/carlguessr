@@ -26,7 +26,7 @@ function CoordinateDisplay({ x, y }) {
 // Main component to handle click events
 function ClickTracker() {
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [targetCoords, setTargetCoords] = useState({ x: 150, y: 150 }); // Predetermined point (center of the square)
+  // const [targetCoords, setTargetCoords] = useState({ x: 150, y: 150 }); // Predetermined point (center of the square)
 
     
   const handleClick = (event) => {
@@ -73,5 +73,3 @@ function ClickTracker() {
 }
 
 export default ClickTracker;
-
-
