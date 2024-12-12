@@ -15,7 +15,7 @@ export default function GamePage() {
       }}
     >
       {/* Title */}
-      <Typography variant="h4" fontWeight="bold" marginBottom={2} color = "blue">
+      <Typography variant="h4" fontWeight="bold" marginBottom={2} color = "#003069">
         Round 1/3
       </Typography>
 
