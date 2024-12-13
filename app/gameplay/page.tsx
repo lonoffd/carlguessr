@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Button,Grid2, Paper } from "@mui/material";
+import { Box, Typography, Button, Paper } from "@mui/material";
 
 export default function GamePage() {
   return (
@@ -15,13 +15,13 @@ export default function GamePage() {
       }}
     >
       {/* Title */}
-      <Typography variant="h4" fontWeight="bold" marginBottom={2} color = "#003069">
+      <Typography variant="h4" fontWeight="bold" marginBottom={2} color="#003069">
         Round 1/3
       </Typography>
 
       {/* Brief Rule */}
       <Typography variant="body1" color="textSecondary" marginBottom={4}>
-        Guess the location of the photo by placing a pin on the campus map 
+        Guess the location of the photo by placing a pin on the campus map
       </Typography>
 
       {/* Main Content */}
