@@ -83,7 +83,7 @@ export default function HomePage() {
             borderColor: "#003069",
             color: "#003069",
           }}
-          href="/creategame" // Link to the Create Game Page
+          href="/create" // Link to the Create Game Page
         >
           Create Game
         </Button>
