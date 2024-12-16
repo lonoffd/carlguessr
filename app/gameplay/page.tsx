@@ -4,27 +4,30 @@ import { Box, Typography, Button, Paper } from "@mui/material";
 import ClickTracker from "./click-tracker";
 
 export default function GamePage() {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [clicks, setClicks] = useState([]);
-  const [confirmed, setConfirmed] = useState(false);
-  const [attempts, setAttempts] = useState(0);
-  const [currentRound, setCurrentRound] = useState(1);
-  const [score, setScore] = useState(0);
+  const [coords, setCoords] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+  const [clicks, setClicks] = useState<{ x: number; y: number }[]>([]);
+  const [confirmed, setConfirmed] = useState<boolean>(false);
+  const [attempts, setAttempts] = useState<number>(0);
+  const [currentRound, setCurrentRound] = useState<number>(1);
+  const [score, setScore] = useState<number>(0);
 
   const targetCoords = { x: 200, y: 200 }; // Center of 400x400 map
 
   // Calculate distance between two points
   const calculateDistance = (
-    clickCoords: { x: any; y: any },
-    targetCoords: { x: any; y: any }
-  ) => {
+    clickCoords: { x: number; y: number },
+    targetCoords: { x: number; y: number }
+  ): number => {
     const dx = clickCoords.x - targetCoords.x;
     const dy = clickCoords.y - targetCoords.y;
     return Math.sqrt(dx * dx + dy * dy); // Pythagorean theorem
   };
 
   // Calculate score based on distance
-  const calculateScore = (distance: number) => {
+  const calculateScore = (distance: number): number => {
     const maxScore = 1000;
     const minScore = 100;
     const maxDistance = 400; // Maximum possible distance in a 400x400 square
@@ -35,11 +38,7 @@ export default function GamePage() {
   };
 
   // Handle map clicks
-  const handleMapClick = (event: {
-    currentTarget: { getBoundingClientRect: () => any };
-    clientX: number;
-    clientY: number;
-  }) => {
+  const handleMapClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = Math.floor(event.clientX - rect.left);
     const y = Math.floor(event.clientY - rect.top);
