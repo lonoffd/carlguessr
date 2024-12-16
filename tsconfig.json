@@ -18,6 +18,7 @@
         "name": "next"
       }
     ],
+    "types": ["node"],  // Add this line to explicitly include Node.js types
     "paths": {
       "@/*": ["./*"]
     }
