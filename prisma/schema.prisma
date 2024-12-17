@@ -32,9 +32,3 @@ model Challenge {
   authorId   String?
 }
 
-model GameScore {
-   id           String
-   player       User
-   score        Int
-   challengeId  
-}
