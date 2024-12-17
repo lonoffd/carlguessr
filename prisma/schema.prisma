@@ -19,9 +19,22 @@ model User {
 model Challenge {
   id         String    @default(cuid()) @id
   title      String
-  xLoc       Int
-  yLoc       Int
-  imageUrl   String
+  xLoc1      Int
+  yLoc1      Int
+  imageUrl1  String
+  xLoc2      Int
+  yLoc2      Int
+  imageUrl2  String
+  xLoc3      Int
+  yLoc3      Int
+  imageUrl3  String
   author     User?     @relation(fields: [authorId], references: [id])
   authorId   String?
+}
+
+model GameScore {
+   id           String
+   player       User
+   score        Int
+   challengeId  
 }
