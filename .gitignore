@@ -1,4 +1,11 @@
 node_modules/
 .next/
 .swc/
+
+# don't commit environment variables like secrets!
 .*.env
+.env
+.vercel
+
+.DS_Store
+
