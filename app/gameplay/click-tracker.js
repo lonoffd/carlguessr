@@ -1,5 +1,5 @@
 "use client";
-import {useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 
 function CoordinateDisplay({ x, y, distance }) {
