@@ -53,6 +53,18 @@ export default function GamePage() {
     }
   }, [currentRound]);
 
+  useEffect(() => {
+    const fetchCurrentGame = async () => {
+      const result = await fetch('/api/currentGame')
+      const resultJson = await result.json()
+      console.log('fetch currentGame result', resultJson)
+      return resultJson
+    }
+    console.log('calling currentGame api')
+    const fetchResult = fetchCurrentGame()
+    console.log('fetchResult', fetchResult)
+  }, [])
+
   // Calculate distance between two points
   const calculateDistance = (
     clickCoords: { x: number; y: number },
