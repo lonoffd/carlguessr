@@ -1,5 +1,8 @@
+'use client'; // Ensure it's treated as a client component
+
 import React from "react";
 import { Box, Typography, Button, IconButton, Avatar } from "@mui/material";
+import Link from 'next/link';  // Use Next.js Link
 
 export default function HomePage() {
   return (
@@ -63,30 +66,32 @@ export default function HomePage() {
           gap: 4,
         }}
       >
-        <Button
-          variant="contained"
-          size="large"
-          sx={{
-            width: "200px",
-            backgroundColor: "#003069",
-            color: "white",
-          }}
-          href="./gameplay" // Link to the Game Page
-        >
-          Play Game
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          sx={{
-            width: "200px",
-            borderColor: "#003069",
-            color: "#003069",
-          }}
-          href="/create" // Link to the Create Game Page
-        >
-          Create Game
-        </Button>
+        <Link href="/signin" passHref>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              width: "200px",
+              backgroundColor: "#003069",
+              color: "white",
+            }}
+          >
+            Play Game
+          </Button>
+        </Link>
+        <Link href="/creategame" passHref>
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              width: "200px",
+              borderColor: "#003069",
+              color: "#003069",
+            }}
+          >
+            Create Game
+          </Button>
+        </Link>
       </Box>
 
       {/* Footer */}
