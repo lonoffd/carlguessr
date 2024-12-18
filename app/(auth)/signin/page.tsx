@@ -1,17 +1,17 @@
-'use client'; 
+'use client';
 
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../lib/firebase";
-import { useRouter } from "next/navigation";  
+import { useRouter } from "next/navigation";
 import { Box, Typography, Button, TextField } from "@mui/material";
-import Link from "next/link"; 
+import Link from "next/link";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();  
+  const router = useRouter();
 
   const handleSignIn = async () => {
     try {
@@ -98,7 +98,7 @@ export default function SignIn() {
       {/* Redirect to Sign Up */}
       <Box sx={{ marginTop: 3 }}>
         <Typography variant="body2" color="textSecondary">
-          Don't have an account?{" "}
+          {"Don't have an account?"}
           <Link href="/signup" style={{ color: "#003069", fontWeight: "bold" }}>
             Create one here
           </Link>
