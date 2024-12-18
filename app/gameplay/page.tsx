@@ -1,7 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Button, Paper } from "@mui/material";
 import ClickTracker from "./click-tracker";
+
+type ChallengeData = {
+  x: number;
+  y: number;
+  imageUrl: string;
+};
 
 export default function GamePage() {
   const [coords, setCoords] = useState<{ x: number; y: number }>({
@@ -13,8 +19,39 @@ export default function GamePage() {
   const [attempts, setAttempts] = useState<number>(0);
   const [currentRound, setCurrentRound] = useState<number>(1);
   const [score, setScore] = useState<number>(0);
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [targetCoords, setTargetCoords] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
-  const targetCoords = { x: 200, y: 200 }; // Center of 400x400 map
+  // Hardcoded round data
+  const hardcodedChallenges: { [key: number]: ChallengeData } = {
+    1: {
+      x: 120,
+      y: 180,
+      imageUrl: "willis.png",
+    },
+    2: {
+      x: 280,
+      y: 245,
+      imageUrl: "James.png",
+    },
+    3: {
+      x: 143,
+      y: 150,
+      imageUrl: "Sayles.png",
+    },
+  };
+
+  // Set round data based on current round
+  useEffect(() => {
+    const roundData = hardcodedChallenges[currentRound];
+    if (roundData) {
+      setTargetCoords({ x: roundData.x, y: roundData.y });
+      setImageUrl(roundData.imageUrl);
+    }
+  }, [currentRound]);
 
   // Calculate distance between two points
   const calculateDistance = (
@@ -37,8 +74,10 @@ export default function GamePage() {
     );
   };
 
-  // Handle map clicks
+  // Handle map clicks (prevent clicks after confirmation)
   const handleMapClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (confirmed) return; // Prevent click handling if confirmed
+
     const rect = event.currentTarget.getBoundingClientRect();
     const x = Math.floor(event.clientX - rect.left);
     const y = Math.floor(event.clientY - rect.top);
@@ -50,7 +89,6 @@ export default function GamePage() {
       updatedClicks[attempts] = { x, y };
       return updatedClicks;
     });
-    setConfirmed(false);
   };
 
   // Confirm user's click
@@ -61,9 +99,14 @@ export default function GamePage() {
       const newScore = calculateScore(distance);
       setScore((prevScore) => prevScore + newScore);
       setAttempts((prevAttempts) => prevAttempts + 1);
-      if (attempts + 1 < 3) {
-        setCurrentRound((prevRound) => prevRound + 1);
-      }
+    }
+  };
+
+  // Handle next round button click
+  const handleNextRound = () => {
+    if (attempts < 3) {
+      setCurrentRound((prevRound) => prevRound + 1);
+      setConfirmed(false); // Reset confirmed state for the next round
     }
   };
 
@@ -138,7 +181,15 @@ export default function GamePage() {
             backgroundColor: "#e0e0e0",
           }}
         >
-          <Typography color="textSecondary">Game Image</Typography>
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="Game Target"
+              style={{ maxHeight: "100%", maxWidth: "100%" }}
+            />
+          ) : (
+            <Typography color="textSecondary">Loading Image...</Typography>
+          )}
         </Paper>
 
         {/* Campus Map Section */}
@@ -164,12 +215,12 @@ export default function GamePage() {
               onClick={handleMapClick}
               clicks={clicks}
               confirmed={confirmed}
-              targetCoords={targetCoords}
+              targetCoords={targetCoords} // Updated to use current round's target
             />
           </Paper>
 
           {/* Confirm Button */}
-          {attempts < 3 && (
+          {attempts < 3 && !confirmed && (
             <Button
               variant="contained"
               sx={{
@@ -181,6 +232,22 @@ export default function GamePage() {
               onClick={handleConfirmClick}
             >
               Confirm
+            </Button>
+          )}
+
+          {/* Next Round Button */}
+          {confirmed && attempts < 3 && (
+            <Button
+              variant="contained"
+              sx={{
+                width: "100px",
+                backgroundColor: "#003069",
+                color: "white",
+                marginTop: 3,
+              }}
+              onClick={handleNextRound}
+            >
+              Next Round
             </Button>
           )}
         </Box>
