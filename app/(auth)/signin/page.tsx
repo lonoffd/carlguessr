@@ -98,7 +98,7 @@ export default function SignIn() {
       {/* Redirect to Sign Up */}
       <Box sx={{ marginTop: 3 }}>
         <Typography variant="body2" color="textSecondary">
-          {"Don't have an account?"}
+          {"Don't have an account? "}
           <Link href="/signup" style={{ color: "#003069", fontWeight: "bold" }}>
             Create one here
           </Link>
