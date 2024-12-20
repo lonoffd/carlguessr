@@ -3,32 +3,43 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING") 
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
-  id           String   @default(cuid()) @id
-  name         String
-  email        String
-  createdAt    DateTime @default(now()) @map(name: "created_at")
-  challenges   Challenge[]
+  id          String        @id @default(cuid())
+  name        String
+  email       String
+  createdAt   DateTime      @default(now()) @map("created_at")
+  challenges  Challenge[]
+  Leaderboard Leaderboard[]
 }
 
 model Challenge {
-  id         String    @default(cuid()) @id
-  title      String
-  xLoc1      Int
-  yLoc1      Int
-  imageUrl1  String
-  xLoc2      Int
-  yLoc2      Int
-  imageUrl2  String
-  xLoc3      Int
-  yLoc3      Int
-  imageUrl3  String
-  author     User?     @relation(fields: [authorId], references: [id])
-  authorId   String?
+  id          String        @id @default(cuid())
+  title       String
+  xLoc1       Int
+  yLoc1       Int
+  imageUrl1   String
+  xLoc2       Int
+  yLoc2       Int
+  imageUrl2   String
+  xLoc3       Int
+  yLoc3       Int
+  imageUrl3   String
+  authorId    String?
+  author      User?         @relation(fields: [authorId], references: [id])
+  Leaderboard Leaderboard[]
 }
 
+model Leaderboard {
+  id          String    @id
+  userId      String
+  challengeId String
+  score       Int
+  createdAt   DateTime  @default(now())
+  Challenge   Challenge @relation(fields: [challengeId], references: [id])
+  User        User      @relation(fields: [userId], references: [id])
+}

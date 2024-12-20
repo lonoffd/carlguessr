@@ -11,7 +11,11 @@ export async function GET() {
     try {
         // Fetch challenge by ID
         // const challenge = { id: 'foobar', title: 'hello world' }
-        const challenge = await prisma.challenge.findFirst()
+        const challenge = await prisma.challenge.findUnique({
+            where: {
+                id: 'cm4rvwt580000phrypbxnij1q'
+            }
+        })
 
         console.log('challenge', challenge)
 
