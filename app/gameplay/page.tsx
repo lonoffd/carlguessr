@@ -3,10 +3,19 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography, Button, Paper } from "@mui/material";
 import ClickTracker from "./click-tracker";
 
+// Define types for Challenge and coordinates
 type ChallengeData = {
-  x: number;
-  y: number;
-  imageUrl: string;
+  id: string;
+  title: string;
+  xLoc1: number;
+  yLoc1: number;
+  imageUrl1: string;
+  xLoc2: number;
+  yLoc2: number;
+  imageUrl2: string;
+  xLoc3: number;
+  yLoc3: number;
+  imageUrl3: string;
 };
 
 export default function GamePage() {
@@ -24,34 +33,41 @@ export default function GamePage() {
     x: 0,
     y: 0,
   });
+  const [challenge, setChallenge] = useState<ChallengeData | null>(null);
 
-  // Hardcoded round data
-  const hardcodedChallenges: { [key: number]: ChallengeData } = {
-    1: {
-      x: 120,
-      y: 180,
-      imageUrl: "willis.png",
-    },
-    2: {
-      x: 280,
-      y: 245,
-      imageUrl: "James.png",
-    },
-    3: {
-      x: 143,
-      y: 150,
-      imageUrl: "Sayles.png",
-    },
-  };
-
-  // Set round data based on current round
+  // Fetch challenge data from API
   useEffect(() => {
-    const roundData = hardcodedChallenges[currentRound];
-    if (roundData) {
-      setTargetCoords({ x: roundData.x, y: roundData.y });
-      setImageUrl(roundData.imageUrl);
+    const fetchChallenge = async () => {
+      const response = await fetch("/api/currentGame");
+      const data = await response.json();
+
+      if (data.success && data.data) {
+        setChallenge(data.data); // Set challenge data from the response
+      } else {
+        console.error("Error fetching challenge");
+      }
+    };
+
+    fetchChallenge();
+  }, []);
+
+  useEffect(() => {
+    if (challenge) {
+      // Use type assertions to inform TypeScript about dynamic keys
+      const roundImageUrl =
+        challenge[`imageUrl${currentRound}` as keyof ChallengeData];
+      const roundX = challenge[`xLoc${currentRound}` as keyof ChallengeData];
+      const roundY = challenge[`yLoc${currentRound}` as keyof ChallengeData];
+
+      if (roundImageUrl && roundX !== undefined && roundY !== undefined) {
+        setTargetCoords({
+          x: roundX as number, // Cast to number
+          y: roundY as number, // Cast to number
+        });
+        setImageUrl(roundImageUrl as string); // Cast to string
+      }
     }
-  }, [currentRound]);
+  }, [currentRound, challenge]);
 
   // Calculate distance between two points
   const calculateDistance = (
@@ -109,6 +125,10 @@ export default function GamePage() {
       setConfirmed(false); // Reset confirmed state for the next round
     }
   };
+
+  if (!challenge) {
+    return <Typography>Loading challenge data...</Typography>;
+  }
 
   return (
     <Box
