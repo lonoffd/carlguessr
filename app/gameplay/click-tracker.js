@@ -29,12 +29,12 @@ function CoordinateDisplay({ x, y, distance }) {
 function ClickTracker({ coords, onClick, clicks, confirmed, targetCoords }) {
   const canvasRef = useRef(null);
   
-  // Draw a line to connect current click to target after confirmation
+  // Line connetcing the pins
   const drawLine = (ctx, startX, startY, endX, endY) => {
     ctx.beginPath();
     ctx.moveTo(startX, startY); // Starting point
     ctx.lineTo(endX, endY); // Ending point (target coordinate)
-    ctx.strokeStyle = "#FF0000"; // Red color
+    ctx.strokeStyle = "#FF0000"; // Red
     ctx.lineWidth = 2;
     ctx.stroke();
   };
