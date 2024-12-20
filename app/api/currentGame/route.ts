@@ -13,9 +13,9 @@ export async function GET() {
         // const challenge = { id: 'foobar', title: 'hello world' }
         const challenge = await prisma.challenge.findUnique({
             where: {
-                id: 'cm4rvwt580000phrypbxnij1q'
+                // id: 'cm4rvwt580000phrypbxnij1q'
                 // id: 'cm4ry7jam0001phdrnmq0fu0x'
-                // id: 'cm4ry7jam0002phdrkqplylbo'
+                id: 'cm4ry7jam0002phdrkqplylbo'
             }
         })
 
