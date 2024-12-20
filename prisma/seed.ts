@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
     console.log('Start seeding...');
 
-    // Create a user
+    // Create a user with challenges
     const user1 = await prisma.user.create({
         data: {
             name: 'Alice Johnson',
@@ -39,6 +39,9 @@ async function main() {
                 ],
             },
         },
+        include: {
+            challenges: true, // Include the challenges to access their IDs
+        },
     });
 
     // Create another user without challenges
@@ -63,6 +66,30 @@ async function main() {
             yLoc3: 280,
             imageUrl3: 'https://example.com/standalone3.jpg',
         },
+    });
+
+    // Create leaderboard entries
+    await prisma.leaderboard.createMany({
+        data: [
+            {
+                userId: user1.id, // Alice Johnson
+                challengeId: user1.challenges[0].id, // Bald Spot
+                score: 95,
+                createdAt: new Date(),
+            },
+            {
+                userId: user1.id, // Alice Johnson
+                challengeId: user1.challenges[1].id, // Bookstore Carpet
+                score: 88,
+                createdAt: new Date(),
+            },
+            {
+                userId: user2.id, // Bob Smith
+                challengeId: standaloneChallenge.id, // LDC Entrance
+                score: 78,
+                createdAt: new Date(),
+            },
+        ],
     });
 
     console.log('Seeding finished.');
